@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="icon" type="image/png" href="ico.png">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <title>Strefa klienta - zamów</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="author" content="Paweł Pawlica">
+    <meta name="description" content="treść">
+    <meta name="keywords" content="słowa kluczowe">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+
+
+
+
+        </script>
+
+</head>
+
+<body style="background-color:#E6E6FA;">
+
+
+    <p style="font-size: xx-large;text-align: center; ">Zamów pyszne jedzenie!</p>
+    <p style=text-align:center>
+        <img src="http://anny.krakow.pl/wp-content/uploads/2015/05/czapa-kucharska.png" width="100" height="150"
+            alt="Kindle">
+    </p>
+
+
+    <section style="float:left; margin: 0 1.5%;">
+        <h3>Napoje</h3>
+        <ul style="">
+            <li><img src="https://res.cloudinary.com/dj484tw6k/f_auto,q_auto,c_pad,b_white,w_360,h_360/v1500521101/bb/9295.png"
+                    alt="Kindle">
+                <br> <br>
+                <button name="button" onclick="cola()" class="button"><span>Zamawiam</span></button>
+
+            </li>
+            <li><img src="https://res.cloudinary.com/dj484tw6k/f_auto,q_auto,c_pad,b_white,w_360,h_360/v1499951173/bb/7809.png"
+                    alt="Kindle">
+                <br> <br>
+                <button name="button" onclick="woda()" class="button"><span>Zamawiam</span></button>
+
+            </li>
+
+
+        </ul>
+        <p style=text-align:center>
+
+        </p>
+
+    </section>
+    <section id="Snacks" style="float:left; margin: 0 1.5%;">
+        <h3>Przekąski</h3>
+        <ul style="">
+            <li><img src="https://d-pt.ppstatic.pl/kadry/k/r/1/0a/06/5605fc539f1f6_o,size,969x565,q,71,h,8f44e2.jpg"
+                    alt="Kindle">
+                <br> <br>
+                <button name="button" onclick="frytki()" class="button"><span>Zamawiam</span></button>
+
+            </li>
+            <li><img src="https://www.kuchniaplus.pl/wideo/45096-abc-gotowania-6/08-buleczki-czosnkowe.jpg"
+                    alt="Kindle">
+                <br> <br>
+                <button name="button" onclick="buleczki()" class="button"><span>Zamawiam</span></button>
+
+            </li>
+
+
+        </ul>
+        <p style=text-align:center>
+
+        </p>
+
+    </section>
+
+    <section id="Soups" style="float:left; margin: 0 1.5%;">
+        <h3>Zupy</h3>
+        <ul>
+            <li><img src="https://static.gotujmy.pl/ZDJECIE_PRZEPISU_ETAP/rosol-z-kaczki-i-kurczaka-pyszny-bardzo-aromatyczny-rosol-podany-z-kluseczkami-382140.jpg"
+                    alt="Kindle">
+                <br> <br>
+                <button name="button" onclick="rosol()" class="button"><span>Zamawiam</span></button>
+                <br> <br>
+            </li>
+        </ul>
+
+
+
+    </section>
+
+    <section style="float:left; margin: 0 1.5%;">
+        <h3>Dania główne</h3>
+        <ul>
+            <li><img src="https://www.winiary.pl/image.ashx/kurczak-na-butelce-piwa.jpg?fileID=226440&width=800&height=1400&frame=False&bg=0&resize=1&crop=0&hRefill=0&vRefill=0&quality=84"
+                    alt="Kindle">
+                <br> <br>
+                <button name="button" onclick="kurczak()" class="button"><span>Zamawiam</span></button>
+                <br> <br>
+            </li>
+
+        </ul>
+
+    </section>
+    <section id="Meals" style="float:right; margin: 0 1.5%;">
+        <h3>Koszyk</h3>
+        <img src="https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1015995/600/600/m1/fpnw/wm0/black-shopping-cart-icon-with-shadow-.jpg?1456149832&s=fc18a0eed0af2ed78435226e2c30531b"
+            alt="Kindle">
+
+        <ul id="dump2">
+
+        </ul>
+        <ul id="dump"></ul>
+        <form id="form" style=" clear: both; ">
+            <input type="number" id="newID" placeholder="Podaj numer zamowienia" />
+            <input type="submit" value="Złóż zamówienie" onclick="showTab" class="button" />
+        </form>
+        <form id="check" style=" clear: both; ">
+            <input type="number" id="checkID" placeholder="Sprawdz numer zamowienia" />
+
+
+
+            <button id="sprawdz" onclick="check()" class="button">Sprawdź towar</button>
+        </form>
+
+    </section>
+
+
+
+
+
+
+
+
+
+    <script>
+
+        var checks = false;
+
+        function check() {
+            if (checks == true) {
+                dump.innerHTML = "";
+                checks = false;
+
+            }
+
+        }
+
+
+
+        $('#sprawdz').on('click',
+            function spr(e) {
+                e.preventDefault();
+                const nr = $('#checkID').val();
+
+                $.get({
+                    type: "GET",
+                    url: "kucharzCoTylkoPokazujeZamowieniaPoNr.php?nr=" + nr,
+                })
+                    .done(function (msg) {
+                        dump.innerHTML = "Sprawdzam"
+
+                        let data = JSON.parse(msg);
+                        data = data[0];
+
+                        if (!data) {
+
+                            return;
+                        }
+
+
+
+                        for (var j = 0; j < data.tab.length; j++) {
+
+                            var li = document.createElement('li');
+
+
+
+
+                            if (data.tab[j].przygotowany === "true") {
+                                li.innerHTML = data.nr + ": " + data.tab[j].nazwa + " przygotowane" + '<br/>';
+                            }
+                            else {
+                                li.innerHTML = data.nr + ": " + data.tab[j].nazwa + " nie  przygotowane" + '<br/>';
+                            }
+
+
+
+
+                            dump.appendChild(li);
+                            checks = true;
+
+
+
+
+                            //   alert(data[i].tab.length);
+
+                        }
+
+                        var a = 0;
+
+                        for (var j = 0; j < data.tab.length; j++) {
+                            if (data.tab[j].przygotowany === "true") {
+                                a++;
+                            }
+                            if (a == data.tab.length) {
+                                console.info('jusz wszystkie');
+
+
+
+                                const buton = $('<button id="#odbierz">Potwierdz odebranie zamowienia</button>')
+                                $('#dump').append(buton);
+                                buton.on('click', function () {
+
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "kucharzCoUsuwaZamowienieONrze.php",
+                                        dataType: 'json',
+                                        data: {
+                                            nr: nr
+                                        }
+                                    })
+                                        .done(function (msg) {
+                                            dump.innerHTML = "";
+                                        })
+                                        .fail(function (e, a, b) {
+                                            alert("error");
+                                            console.log(e);
+                                            console.log(a);
+                                            console.log(b);
+                                        });
+
+
+
+                                });
+
+
+
+
+
+                            }
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    });
+
+            });
+    </script>
+
+
+
+
+
+
+
+    <footer style=" clear: both; ">
+        <p class="footer">Paweł Pawlica</p>
+        <p class="footer">Krzysztof Siuta</p>
+        <p class="footer">Politechnika Śląska</p>
+        <i class="material-icons">cloud</i>
+    </footer>
+
+
+
+
+    <script>
+
+
+
+        var tab = [];
+        var nr;
+        var form = document.querySelector("#form");
+        form.addEventListener("submit", callback)
+
+        function callback(e) {
+            e.preventDefault();
+            showTab();
+            const data = { tab: tab,
+                        nr: nr}
+            console.log(data);
+            fetch("/output", {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log(response)
+            }).catch(err => {
+                console.warn(err)
+            })
+        }
+            function showTab() {
+                    console.log(tab.length);
+                    console.log(tab);
+                    nr = document.getElementById('newID').value;
+
+                }
+
+            function frytki() {
+                    var obj = new Object();
+                    obj.nazwa = "Frytki";
+                    obj.czas = "10 minut";
+                    obj.przygotowany = false;
+                    var jsonString = JSON.stringify(obj);
+                    console.log(JSON.parse(jsonString));
+                    tab.push(obj);
+                    var li = document.createElement('li');
+                    li.innerHTML = obj.nazwa;
+                    dump2.appendChild(li);
+                    dump.innerHTML = "";
+                }
+
+            function buleczki() {
+                    var obj = new Object();
+                    obj.nazwa = "Bułeczki";
+                    obj.czas = "20 minut";
+                    obj.przygotowany = false;
+                    var jsonString = JSON.stringify(obj);
+                    console.log(JSON.parse(jsonString));
+                    tab.push(obj);
+                    var li = document.createElement('li');
+                    li.innerHTML = obj.nazwa;
+                    dump2.appendChild(li);
+                    dump.innerHTML = "";
+                }
+            function kurczak() {
+                    var obj = new Object();
+                    obj.nazwa = "Kurczak";
+                    obj.czas = "30 minut";
+                    obj.przygotowany = false;
+                    var jsonString = JSON.stringify(obj);
+                    console.log(JSON.parse(jsonString));
+                    tab.push(obj);
+                    var li = document.createElement('li');
+                    li.innerHTML = obj.nazwa;
+                    dump2.appendChild(li);
+                    dump.innerHTML = "";
+                }
+            function rosol() {
+                    var obj = new Object();
+                    obj.nazwa = "Rosół";
+                    obj.czas = "15 minut";
+                    obj.przygotowany = false;
+                    var jsonString = JSON.stringify(obj);
+                    console.log(JSON.parse(jsonString));
+                    tab.push(obj);
+                    var li = document.createElement('li');
+                    li.innerHTML = obj.nazwa;
+                    dump2.appendChild(li);
+                    dump.innerHTML = "";
+                }
+            function cola() {
+                    var obj = new Object();
+                    obj.nazwa = "Cola";
+                    obj.czas = "2 minuty";
+                    obj.przygotowany = false;
+                    var jsonString = JSON.stringify(obj);
+                    console.log(JSON.parse(jsonString));
+                    tab.push(obj);
+                    var li = document.createElement('li');
+                    li.innerHTML = obj.nazwa;
+                    dump2.appendChild(li);
+                    dump.innerHTML = "";
+                }
+            function woda() {
+                    var obj = new Object();
+                    obj.nazwa = "Woda";
+                    obj.czas = "2 minuty";
+                    obj.przygotowany = false;
+                    var jsonString = JSON.stringify(obj);
+                    console.log(JSON.parse(jsonString));
+                    tab.push(obj);
+                    var li = document.createElement('li');
+                    li.innerHTML = obj.nazwa;
+                    dump2.appendChild(li);
+                    dump.innerHTML = "";
+                }
+
+    </script>
+</body>
+
+</html>
