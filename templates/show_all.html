@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang = "en">
-   <head></head>
+   <head>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="icon" type="image/png" href="ico.png">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+      <title>Strefa klienta - zamów</title>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <meta name="author" content="Paweł Pawlica">
+      <meta name="description" content="treść">
+      <meta name="keywords" content="słowa kluczowe">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      
+   </head>
    <body>
       <h3>
          <a href = "{{ url_for('show_all') }}">Comments - Flask 
@@ -12,26 +23,25 @@
          {{ message }}
       {%- endfor %}
 		
-      <h3>Students (<a href = "{{ url_for('new') }}">Add Student
+      <h3>Foods (<a href = "{{ url_for('new') }}">Add Food
          </a>)</h3>
       
       <table>
          <thead>
             <tr>
                <th>Name</th>
-               <th></th>
-               <th>Address</th>
-               <th>Pin</th>
+               <th>Time</th>
+               <th>IsReady?</th>
+               
             </tr>
          </thead>
 
          <tbody>
-            {% for student in students %}
+            {% for food in foods %}
                <tr>
-                  <td>{{ student.name }}</td>
-                  <td>{{ student.city }}</td>
-                  <td>{{ student.addr }}</td>
-                  <td>{{ student.pin }}</td>
+                  <td>{{ food.name }}</td>
+                  <td>{{ food.time }}</td>
+                  <td>{{ food.isReady }}</td>
                </tr>
             {% endfor %}
          </tbody>
