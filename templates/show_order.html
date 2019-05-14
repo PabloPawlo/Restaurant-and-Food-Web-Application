@@ -22,34 +22,33 @@
       {%- for message in get_flashed_messages() %}
          {{ message }}
       {%- endfor %}
-		
-      <h3>Foods (<a href = "{{ url_for('new') }}">Add Food
-         </a>)</h3>
+	
       
       <table>
          <thead>
-            <tr>
-               <th>Name</th>
-               <th>Time</th>
-               <th>User</th>
-               
-            </tr>
          </thead>
 
+        
          <tbody>
-            {% for food in foods %}
+            {% for connection in connections %}
                <tr>
-                  <td>{{ food.name }}</td>
-                  <td>{{ food.time }}</td>
-                  <td>{{ food.isReady }}</td>
-              
+                  <td>{{ connection.id }}</td>
+                  <td>{{ connection.food_id }}</td>
+                  
             {% endfor %}
-            {% for user in users %}
-             
-               <td>{{ user.uname }}</td>
-               </tr>
-            {% endfor %}
-      
+            {% for food in foods %}
+            <tr>
+               <td>{{ food.name }}</td>
+               <td>{{ food.time }}</td>
+               <td>{{ food.isReady }}</td>
+           
+         {% endfor %}
+         {% for user in users %}
+               
+            <td>{{ user.uname }}</td>
+            </tr>
+         {% endfor %}
+            
          </tbody>
       </table>
    </body>

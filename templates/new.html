@@ -24,15 +24,31 @@
          </div>
       {%- endfor %}
       
+
+             <ul>
+                  {% for food in foods %}
+                  <li class="foodz">
+               <span>{{ food.name }}</span>
+               
+               <span>{{ food.time }}</span>
+               
+               <input type="hidden" value={{food.id}}>
+
+               <input type="checkbox">
+                  </li>
+               {%- endfor %}       
+             </ul>
+
       <form action = "{{ request.path }}" method = "post">
-         <input type = "hidden" name = "name" placeholder = "Name" value = "Chicken" /><br>
-         <input type = "hidden" name = "time" placeholder = "time" value = "15 mins" /><br>
-         <input type = "hidden" name = "isReady" placeholder = "isReady" value = "Is not ready" ></input><br>
+
+     
+
+         <input type = "text" name = "uname" placeholder = "Uname"/><br>
          <input type = "submit" value = "Submit" />
          </form>
        
        
 
     
-   </body>
+   </body>  
 </html>
