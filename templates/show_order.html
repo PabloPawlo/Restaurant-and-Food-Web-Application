@@ -3,8 +3,8 @@
    <head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="icon" type="image/png" href="ico.png">
-      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
-      <title>Strefa klienta - zamów</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+      <title>Your order</title>
       <meta http-equiv="content-type" content="text/html; charset=utf-8">
       <meta name="author" content="Paweł Pawlica">
       <meta name="description" content="treść">
@@ -16,8 +16,9 @@
       <h3>
          <p>Flask SQLAlchemy - Orders:</p>
       </h3>
-      
-      <hr/>
+      <p><img src="http://anny.krakow.pl/wp-content/uploads/2015/05/czapa-kucharska.png" width="100" height="150"
+         alt="Chef"></p> 
+
       {%- for message in get_flashed_messages() %}
          {{ message }}
       {%- endfor %}
@@ -25,9 +26,9 @@
       
      
           
-      
+      <div class="content">
       <p class="userstring">{{ users }}</p>
-      <ul> Order: </ul>
+      <ul>Order: </ul>
             {% for connection in qonnections %}
             <li class="qonnectionz">
              
@@ -41,6 +42,15 @@
                const target = document.querySelector('.userstring');
                target.textContent = 'Name: ' + target.textContent.substr(3,target.textContent.length-7)   
              </script>
+
+
+            </div>
+<footer class="footer">
+   
+   Paweł Pawlica<br>
+   Politechnika Śląska<br>
+    <i class="material-icons">cloud</i>
+</footer>
 
    </body>
 </html>

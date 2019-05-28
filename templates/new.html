@@ -4,8 +4,8 @@
 <head>
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
    <link rel="icon" type="image/png" href="ico.png">
-   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
-   <title>Strefa klienta - zamów</title>
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+   <title>Client Page</title>
    <meta http-equiv="content-type" content="text/html; charset=utf-8">
    <meta name="author" content="Paweł Pawlica">
    <meta name="description" content="treść">
@@ -17,37 +17,49 @@
 </head>
 
 <body>
-   <h3>Foods - Flask SQLAlchemy example</h3>
-   <hr />
 
-   {%- for category, message in get_flashed_messages(with_categories = true) %}
-   <div class="alert alert-danger">
-      {{ message }}
+
+   <h3>Order your food - Flask SQLAlchemy</h3>
+   <p><img src="http://anny.krakow.pl/wp-content/uploads/2015/05/czapa-kucharska.png" width="100" height="150"
+         alt="Chef"></p>
+
+   <div class="content">
+      <ul>
+         {% for food in foods %}
+         <li class="foodz">
+            <span>{{ food.name }}</span>
+
+            <span>{{ food.time }}</span>
+
+            <input type="hidden" value={{food.id}}>
+
+            <input type="checkbox">
+         </li>
+         {%- endfor %}
+      </ul>
+      <span>
+         <form method="post" id="post_order" class="hovers">
+            <input type="text" name="uname" id="name" required/><br>
+            <span><input type="submit" value="Submit" class="submitstyle" />
+         </form>
+      </span>
+
+
+
+
    </div>
-   {%- endfor %}
+   <footer class="footer">
+
+      Paweł Pawlica<br>
+      Politechnika Śląska<br>
+      <i class="material-icons">cloud</i>
+   </footer>
 
 
-   <ul>
-      {% for food in foods %}
-      <li class="foodz">
-         <span>{{ food.name }}</span>
 
-         <span>{{ food.time }}</span>
 
-         <input type="hidden" value={{food.id}}>
-
-         <input type="checkbox">
-      </li>
-      {%- endfor %}
-   </ul>
-
-   <form method="post" id="eisenshreschen">
-      <input type="text" name="uname" placeholder="Uname" id="name"/><br>
-      <input type="submit" value="Submit" />
-   </form>
-   
    <script>
-      document.querySelector('form#eisenshreschen').onsubmit = function (e) {
+      document.querySelector('form#post_order').onsubmit = function (e) {
          e.preventDefault();
 
          const listElements = document.querySelectorAll('li.foodz');
@@ -60,7 +72,7 @@
          console.log(ids);
          console.log(document.querySelector('#name'));
          const name = document.querySelector('#name').value;
-         fetch('http://localhost:5000/tak', {
+         fetch('http://localhost:5000/post_order', {
             headers: {
                'Accept': 'application/json',
                'Content-Type': 'application/json'
@@ -72,6 +84,14 @@
             })
          }).then(res => document.location = res.url).catch(err => console.warn(err));
       }
+
+
+
+
+
+
+
+
    </script>
 </body>
 

@@ -3,8 +3,8 @@
    <head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="icon" type="image/png" href="ico.png">
-      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
-      <title>Strefa klienta - zamów</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+      <title>Restaurant Page</title>
       <meta http-equiv="content-type" content="text/html; charset=utf-8">
       <meta name="author" content="Paweł Pawlica">
       <meta name="description" content="treść">
@@ -14,17 +14,17 @@
    </head>
    <body>
       <h3>
-         <a href = "{{ url_for('show_all') }}">Comments - Flask 
-            SQLAlchemy example</a>
+        <p>Flask SQLAlchemy - Show Orders</p>
       </h3>
-      
-      <hr/>
+     <p><img src="http://anny.krakow.pl/wp-content/uploads/2015/05/czapa-kucharska.png" width="100" height="150"
+      alt="Chef"></p> 
+
       {%- for message in get_flashed_messages() %}
          {{ message }}
       {%- endfor %}
-		
-      <h3>Foods (<a href = "{{ url_for('new') }}">Add Food
-         </a>)</h3>
+      <div class="content">
+      <p>Foods (<a href = "{{ url_for('new') }}">Add Food
+         </a>)</p>
          <ul>
             {% for connection in connections %}
             <li class="connectionz">
@@ -39,5 +39,16 @@
            
          </ul> 
         
+
+      </div>
+        <footer class="footer">
+           
+         Paweł Pawlica<br>
+         Politechnika Śląska<br>
+         <i class="material-icons">cloud</i>
+        </footer>
+
+       
+
    </body>
 </html>
