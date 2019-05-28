@@ -14,8 +14,7 @@
    </head>
    <body>
       <h3>
-         <a href = "{{ url_for('show_all') }}">Comments - Flask 
-            SQLAlchemy example</a>
+         <p>Flask SQLAlchemy - Orders:</p>
       </h3>
       
       <hr/>
@@ -24,32 +23,24 @@
       {%- endfor %}
 	
       
-      <table>
-         <thead>
-         </thead>
-
-        
-         <tbody>
-            {% for connection in connections %}
-               <tr>
-                  <td>{{ connection.id }}</td>
-                  <td>{{ connection.food_id }}</td>
-                  
-            {% endfor %}
-            {% for food in foods %}
-            <tr>
-               <td>{{ food.name }}</td>
-               <td>{{ food.time }}</td>
-               <td>{{ food.isReady }}</td>
-           
-         {% endfor %}
-         {% for user in users %}
-               
-            <td>{{ user.uname }}</td>
-            </tr>
-         {% endfor %}
+     
+          
+      
+      <p class="userstring">{{ users }}</p>
+      <ul> Order: </ul>
+            {% for connection in qonnections %}
+            <li class="qonnectionz">
+             
             
-         </tbody>
-      </table>
+               <span>{{ connection.name }}</span>
+      
+            </li>
+            {%- endfor %}
+            
+            <script>
+               const target = document.querySelector('.userstring');
+               target.textContent = 'Name: ' + target.textContent.substr(3,target.textContent.length-7)   
+             </script>
+
    </body>
 </html>

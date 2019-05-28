@@ -1,14 +1,16 @@
-from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import Flask, request, flash, url_for, redirect, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///foods.sqlite3'
 app.config['SECRET_KEY'] = "random string"
 
-db = SQLAlchemy(app)
 
+db = SQLAlchemy(app)
 
 class Food(db.Model):
     __tablename__ = 'food'
@@ -27,8 +29,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uname = db.Column(db.String(20))
 
-def __init__(self, name):
-    self.name = name
+
+def __init__(self, uname):
+    self.uname = uname
+
 
 class ConnectionDB(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -38,9 +42,11 @@ class ConnectionDB(db.Model):
     user = db.relationship("User")
     isReady = db.Column(db.String(20))
 
+
 @app.route('/order')
-def show_order():
+def order():
     userId = request.args.get('userId')
+
     print(userId)
     #db.session.query(ConnectionDB).filter(ConnectionDB.user_id == 9)
 
@@ -48,31 +54,66 @@ def show_order():
     #for row in conn.execute(s):
     #    print(row)
     #(1, u'jack', u'Jack Jone
+    q = db.session.query(ConnectionDB).join(User).filter(ConnectionDB.user_id==userId).all()
+    q2 = db.session.query(User.uname).filter(User.id==userId).all()
+    qpa = db.session.query(Food).join(User, ConnectionDB.user_id==userId).join(ConnectionDB, Food.id == ConnectionDB.food_id).filter().all()
 
-    return render_template('show_order.html', connections=ConnectionDB.query.all(), foods=Food.query.all(), users=User.query.all())  #.query.filter(ConnectionDB.user_id == userId))
+    return render_template('show_order.html', connections = q,qonnections = qpa, users=q2 )
+
 
 @app.route('/')
 def show_all():
-    return render_template('show_all.html', foods=Food.query.all(), users=User.query.all())
+    #q = db.session.query(User.uname, Food.name).join(ConnectionDB.user_id == User.id and ConnectionDB.food_id==Food.id).all()
+    q = db.session.query(ConnectionDB)\
+        .join(Food, ConnectionDB.food_id == Food.id)\
+        .join(User, ConnectionDB.user_id == User.id)\
+        .all()
+
+    return render_template('show_all.html', connections=q)
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/tak', methods=['POST'])
+def tak():
+    data = request.get_json()
+
+    user = User(uname=data['name'])
+    db.session.add(user)
+    db.session.commit()
+
+    for food_id in data['tab']:
+        print(food_id)
+        connection = ConnectionDB(user_id=user.id, food_id=food_id, isReady='Nie')
+        db.session.add(connection)
+    db.session.commit()
+    return redirect(url_for('order', userId=user.id))
 
 
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     if request.method == 'POST':
-        if not request.form['uname']:
+        if not request.form['name']:
             flash('Please enter all the fields', 'error')
         else:
 
             flash('Record was successfully added')
-            user = User(uname=request.form['uname'])
+            user = User(name=request.form['name'])
             db.session.add(user)
             db.session.commit()
             flash('Record was successfully added')
             connection = ConnectionDB(user_id=user.id, food_id=food.id, isReady='Nie')
             db.session.add(connection)
             db.session.commit()
-            return redirect(url_for('show_order', userId=user.id))
-    return render_template('new.html', connections=ConnectionDB.query.all(), foods=Food.query.all(), users=User.query.all())
+            return redirect(url_for('tak', userId=user.id))
+    return render_template('new.html', foods=Food.query.all())
 
 
 if __name__ == '__main__':

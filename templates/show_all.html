@@ -25,32 +25,19 @@
 		
       <h3>Foods (<a href = "{{ url_for('new') }}">Add Food
          </a>)</h3>
+         <ul>
+            {% for connection in connections %}
+            <li class="connectionz">
+               <span>{{ connection.food.name}}</span>
+               <span>{{ connection.user.uname}}</span>
+        
       
-      <table>
-         <thead>
-            <tr>
-               <th>Name</th>
-               <th>Time</th>
-               <th>User</th>
-               
-            </tr>
-         </thead>
-
-         <tbody>
-            {% for food in foods %}
-               <tr>
-                  <td>{{ food.name }}</td>
-                  <td>{{ food.time }}</td>
-                  <td>{{ food.isReady }}</td>
-              
-            {% endfor %}
-            {% for user in users %}
-             
-               <td>{{ user.uname }}</td>
-               </tr>
-            {% endfor %}
-      
-         </tbody>
-      </table>
+            </li>
+            {%- endfor %}
+         </ul> 
+         <ul>
+           
+         </ul> 
+        
    </body>
 </html>
